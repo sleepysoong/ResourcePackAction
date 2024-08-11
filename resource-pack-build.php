@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.7";
+const VERSION = "1.0.8";
 
 function generateUuid() : string{
     return sprintf(
@@ -13,14 +13,22 @@ function generateUuid() : string{
     );
 }
 
+if(!isset($argc[0])){
+    exit("태그 이름이 전달되지 않았습니다.\n");
+}
+
+$tag = array_map('intval', explode(".", $argc[0]));
+
 $manifest_path = 'manifest.json';
 $manifest = json_decode(file_get_contents($manifest_path), true);
 $manifest['header']['uuid'] = generateUuid();
 $manifest['modules']['uuid'] = generateUuid();
+$manifest['header']['version'] = $tag;
+$manifest['modules']['version'] = $tag;
 file_put_contents($manifest_path, json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
 $zip = new ZipArchive();
-if($zip->open('output.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE){
+if($zip->open($manifest['header']['name'] . "-v" . implode('.', $tag), ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE){
     exit("압축 파일을 열 수 없습니다.\n");
 }
 
