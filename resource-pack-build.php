@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.5";
+const VERSION = "1.0.6";
 
 function generateUuid() : string{
     return sprintf(
@@ -31,8 +31,7 @@ $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__), 
 foreach($files as $file){
     if(!$file->isDir()){
         $file_path = $file->getRealPath();
-        $relative_path = substr($file_path, strlen($source_dir) + 1);
-        $zip->addFile($file_path, $relative_path);
+        $zip->addFile($file_path, substr($file_path, strlen(__DIR__) + 1));
     }
 }
 
