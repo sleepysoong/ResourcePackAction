@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.10";
+const VERSION = "1.0.11";
 
 function generateUuid() : string{
     return sprintf(
@@ -28,7 +28,8 @@ $manifest['modules']['version'] = $tag;
 file_put_contents($manifest_path, json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
 $zip = new ZipArchive();
-if($zip->open($manifest['header']['name'] . "-v" . implode('.', $tag), ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE){
+$zipName = $manifest['header']['name'] . "-v" . implode('.', $tag) . ".zip";
+if($zip->open($zipName, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE){
     exit("압축 파일을 열 수 없습니다.\n");
 }
 
@@ -41,4 +42,4 @@ foreach($files as $file){
 }
 
 $zip->close();
-echo "성공적으로 리소스팩을 빌드했어요 >____<\n";
+echo "성공적으로 리소스팩을 빌드했어요 ({$zipName}) >____<\n";
