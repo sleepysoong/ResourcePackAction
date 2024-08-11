@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.6";
+const VERSION = "1.0.7";
 
 function generateUuid() : string{
     return sprintf(
@@ -18,9 +18,6 @@ $manifest = json_decode(file_get_contents($manifest_path), true);
 $manifest['header']['uuid'] = generateUuid();
 $manifest['modules']['uuid'] = generateUuid();
 file_put_contents($manifest_path, json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-$name = $manifest['header']['name'];
-$version = implode('.', $manifest['header']['version']);
 
 $zip = new ZipArchive();
 if($zip->open('output.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE){
