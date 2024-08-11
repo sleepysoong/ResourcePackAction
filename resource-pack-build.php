@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.4";
+const VERSION = "1.0.5";
 
 function generateUuid() : string{
     return sprintf(
@@ -38,9 +38,3 @@ foreach($files as $file){
 
 $zip->close();
 echo "성공적으로 리소스팩을 빌드했어요 >____<\n";
-
-if(!copy($zip_file, 'output.mcworld')){
-    exit("파일 복사에 실패했습니다.\n");
-}
-
-echo "빌드된 리소스팩을 성공적으로 복사했어요 >____<\n";
