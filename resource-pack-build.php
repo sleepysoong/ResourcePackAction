@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.1";
+const VERSION = "1.0.2";
 
 function generateUuid() : string{
     return sprintf(
@@ -25,14 +25,15 @@ $version = implode('.', $manifest['header']['version']);
 $source_dir = __DIR__;
 $output = $name . ' v' . $version;
 
+$zip_file = $output . '.zip';
 $zip = new ZipArchive();
-if ($zip->open($output . '.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
+if($zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE){
     exit("압축 파일을 열 수 없습니다.\n");
 }
 
 $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source_dir), RecursiveIteratorIterator::LEAVES_ONLY);
-foreach ($files as $name => $file) {
-    if (!$file->isDir()) {
+foreach($files as $file){
+    if(!$file->isDir()){
         $file_path = $file->getRealPath();
         $relative_path = substr($file_path, strlen($source_dir) + 1);
         $zip->addFile($file_path, $relative_path);
@@ -42,7 +43,8 @@ foreach ($files as $name => $file) {
 $zip->close();
 echo "성공적으로 리소스팩을 빌드했어요 >____<\n";
 
-if(!copy($zip_file, $output . '.mcworld')){
+$mcworld_file = $output . '.mcworld';
+if(!copy($zip_file, $mcworld_file)){
     exit("파일 복사에 실패했습니다.\n");
 }
 
