@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.3";
+const VERSION = "1.0.4";
 
 function generateUuid() : string{
     return sprintf(
@@ -27,7 +27,7 @@ if($zip->open('output.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE
     exit("압축 파일을 열 수 없습니다.\n");
 }
 
-$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source_dir), RecursiveIteratorIterator::LEAVES_ONLY);
+$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__), RecursiveIteratorIterator::LEAVES_ONLY);
 foreach($files as $file){
     if(!$file->isDir()){
         $file_path = $file->getRealPath();
