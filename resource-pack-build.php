@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.9";
+const VERSION = "1.0.10";
 
 function generateUuid() : string{
     return sprintf(
@@ -13,11 +13,11 @@ function generateUuid() : string{
     );
 }
 
-if(!isset($argc[1])){
+if(!isset($argv[1])){
     exit("태그 이름이 전달되지 않았습니다.\n");
 }
 
-$tag = array_map('intval', explode(".", $argc[1]));
+$tag = array_map('intval', explode(".", $argv[1]));
 
 $manifest_path = 'manifest.json';
 $manifest = json_decode(file_get_contents($manifest_path), true);
