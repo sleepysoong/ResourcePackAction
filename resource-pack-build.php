@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.2";
+const VERSION = "1.0.3";
 
 function generateUuid() : string{
     return sprintf(
@@ -22,12 +22,8 @@ file_put_contents($manifest_path, json_encode($manifest, JSON_PRETTY_PRINT | JSO
 $name = $manifest['header']['name'];
 $version = implode('.', $manifest['header']['version']);
 
-$source_dir = __DIR__;
-$output = $name . ' v' . $version;
-
-$zip_file = $output . '.zip';
 $zip = new ZipArchive();
-if($zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE){
+if($zip->open('output.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE){
     exit("압축 파일을 열 수 없습니다.\n");
 }
 
@@ -43,8 +39,7 @@ foreach($files as $file){
 $zip->close();
 echo "성공적으로 리소스팩을 빌드했어요 >____<\n";
 
-$mcworld_file = $output . '.mcworld';
-if(!copy($zip_file, $mcworld_file)){
+if(!copy($zip_file, 'output.mcworld')){
     exit("파일 복사에 실패했습니다.\n");
 }
 
