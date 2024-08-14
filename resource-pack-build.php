@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.12";
+const VERSION = "1.0.13";
 
 function generateUuid() : string{
     return sprintf(
@@ -28,7 +28,7 @@ $manifest['modules']['version'] = $tag;
 file_put_contents($manifest_path, json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
 $zip = new ZipArchive();
-$zipName = str_replace(" ", "", $manifest['header']['name'] . "-v" . implode('.', $tag) . ".zip");
+$zipName = str_replace(" ", "", $manifest['header']['name'] . ".zip");
 if($zip->open($zipName, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE){
     exit("압축 파일을 열 수 없습니다.\n");
 }
