@@ -1,6 +1,6 @@
 <?php
 
-const VERSION = "1.0.14";
+const VERSION = "1.0.15";
 
 function generateUuid() : string {
     return sprintf(
@@ -38,6 +38,11 @@ foreach ($files as $file) {
     if (!$file->isDir()) {
         $file_path = $file->getRealPath();
         $relative_path = substr($file_path, strlen(__DIR__) + 1);
+        if(strpos($relative_path, '.git/') === 0 || 
+            strpos($relative_path, '.github/') === 0 || 
+            substr($relative_path, -4) === '.php'){
+            continue;
+        }
         $zip->addFile($file_path, $relative_path);
     }
 }
